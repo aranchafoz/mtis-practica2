@@ -1,6 +1,7 @@
 //obtenemos los modelos con toda la funcionalidad
 var ValidatorsModel = require('../models/validators');
 var PoblacionModel = require('../models/poblaciones');
+var PresupuestoModel = require('../models/presupuestos');
 
 
 //creamos el ruteo de la aplicación
@@ -78,29 +79,27 @@ module.exports = function(app)
 		});
 	});
 
-  // // Crea un nuevo presupuesto
-  // app.post("/generarPresupuesto", function(req,res)
-  // {
-  //   //creamos un objeto con los datos a insertar del usuario
-  //   var userData = {
-  //     id : null,
-  //     username : req.body.username,
-  //     email : req.body.email,
-  //     password : req.body.password,
-  //     created_at : null,
-  //     updated_at : null
-  //   };
-  //   UserModel.insertUser(userData,function(error, data)
-  //   {
-  //     //si el usuario se ha insertado correctamente mostramos su info
-  //     if(data && data.insertId)
-  //     {
-  //       res.redirect("/users/" + data.insertId);
-  //     }
-  //     else
-  //     {
-  //       res.json(500,{"msg":"Error"});
-  //     }
-  //   });
-  // });
+	// Crea un nuevo presupuesto
+	app.post("/generarPresupuesto", function(req,res,next)
+	{
+		var presupuesto = req.body
+
+		PresupuestoModel.generarPresupuesto(presupuesto, function(data)
+		{
+			if(data && data.presupuestoGeneradoCorrectamente)
+			{
+				res.status(200)
+				res.send(data)
+				res.end()
+				next()
+			}
+			else
+			{
+				res.status(500)
+				res.send(data)
+				res.end()
+				next()
+			}
+		});
+	});
 }
