@@ -1,0 +1,48 @@
+#%RAML 1.0
+title: MTIS - Practica 2 - Documento 3
+mediaType: application/json
+baseUri: http://localhost:3000
+
+types:
+  Presupuesto:
+    type: object
+    properties:
+      RestKey: string
+      fechaPresupuesto: date-only
+      idCliente: number
+      referenciaProducto: string
+      cantidadProducto: number
+
+/consultaCodigoPostal:
+  post:
+    description: Obtiene la información relacionada con un código postal
+    body:
+      application/json:
+        type: Presupuesto
+        example:
+          RestKey: "SFGSDFV3432SF23AF"
+          fechaPresupuesto: 2012-03-12
+          idCliente: 1
+          referenciaProducto: "AS43"
+          cantidadProducto: 3
+    responses: 
+      200:
+        body: 
+          application/json:
+            type: object
+            properties: 
+              idPresupuesto: number
+              presupuestoGeneradoCorrectamente: boolean
+            example:
+              idPresupuesto: 2
+              presupuestoGeneradoCorrectamente: true
+      500:
+        body:
+          application/json:
+            type: object
+            properties: 
+              idPresupuesto: number
+              presupuestoGeneradoCorrectamente: boolean
+            example:
+              idPresupuesto: -1
+              presupuestoGeneradoCorrectamente: false

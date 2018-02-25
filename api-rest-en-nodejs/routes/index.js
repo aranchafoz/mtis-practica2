@@ -16,14 +16,14 @@ module.exports = function(app)
 			if(data && data.isValid)
 			{
 				res.status(200)
-				res.send({msg: "NIF is valid"})
+				res.send({isValid: true})
 				res.end()
 				next()
 			}
 			else
 			{
 				res.status(500)
-				res.send({msg: "NIF is not valid"})
+				res.send({isValid: true})
 				res.end()
 				next()
 			}

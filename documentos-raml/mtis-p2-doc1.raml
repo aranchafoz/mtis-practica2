@@ -1,0 +1,67 @@
+#%RAML 1.0
+title: MTIS - Practica 2 - Documento 1
+mediaType: application/json
+baseUri: http://localhost:3000
+
+/validarNIF:
+  post:
+    description: Comprueba, según el sistema español, la validez de un NIF
+    body:
+      application/json:
+        type: object
+        properties: 
+          RestKey: string
+          nif: string
+        example:
+          "RestKey": "SFGA2341WGFJSMFDC"
+          "nif": "123456789A"
+    responses: 
+      200:
+        body: 
+          application/json:
+            type: object
+            properties: 
+              isValid: boolean
+            example:
+              "isValid": true
+      500:
+        body:
+          application/json:
+            type: object
+            properties: 
+              isValid: boolean
+            example:
+              "isValid": false
+/validarIBAN:
+  post:
+    description: Comprueba la validez de un número bancario IBAN
+    body:
+      application/json:
+        type: object
+        properties: 
+          RestKey: string
+          iban: string
+        example:
+          "RestKey": "SFGA2341WGFJSMFDC"
+          "iban": "ES91 2100 0418 4502 0005 1332"
+    responses: 
+      200:
+        body: 
+          application/json:
+            type: object
+            properties: 
+              isValid: boolean
+              error: string
+            example:
+              "isValid": true
+              "error": ""
+      500:
+        body:
+          application/json:
+            type: object
+            properties: 
+              isValid: boolean
+              error: string
+            example:
+              "isValid": false
+              "error": "El IBAN introducido está incompleto"

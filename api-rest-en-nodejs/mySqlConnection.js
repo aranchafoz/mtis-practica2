@@ -6,7 +6,7 @@ connection = mysql.createConnection(
 		host: 'localhost',
 		user: 'arancha',
 		password: '12345',
-		database: 'mtis_p1'
+		database: 'mtis_p2'
 	}
 );
 

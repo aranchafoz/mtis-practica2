@@ -3,17 +3,17 @@ var UserModel = require('../models/users');
 module.exports = function(app) {
 
   app.use('/', function(req, res, next) {
-  	var soapKey = req.body.soapKey
-    if(!soapKey) {
+  	var restKey = req.body.RestKey
+    if(!restKey) {
       res.status(500)
-      res.send({msg: "Error: Field \'soapKey\' is mandatory"})
+      res.send({msg: "Error: Field \'RestKey\' is mandatory"})
       res.end()
     } else {
       try {
-        UserModel.checkSoapKey(soapKey, function(error, exists) {
+        UserModel.checkRestKey(restKey, function(error, exists) {
       		if(!exists) {
             res.status(500)
-            res.send({msg: "Soap Key is not valid"})
+            res.send({msg: "Rest Key is not valid"})
             res.end()
       		} else {
             next();

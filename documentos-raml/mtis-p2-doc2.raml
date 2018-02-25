@@ -1,0 +1,45 @@
+#%RAML 1.0
+title: MTIS - Practica 2 - Documento 2
+mediaType: application/json
+baseUri: http://localhost:3000
+
+types:
+  CodigoPostal:
+    type: object
+    properties:
+      cp: number
+      poblacion: string
+      provincia: string
+      existe: boolean
+
+/consultaCodigoPostal:
+  post:
+    description: Obtiene la información relacionada con un código postal
+    body:
+      application/json:
+        type: object
+        properties: 
+          RestKey: string
+          cp: number
+        example:
+          "RestKey": "SFGA2341WGFJSMFDC"
+          "cp": 03140
+    responses: 
+      200:
+        body: 
+          application/json:
+            type: CodigoPostal
+            example:
+              cp: 03140
+              poblacion: "Guardamar del Segura"
+              provincia: "Alicante"
+              existe: true
+      500:
+        body:
+          application/json:
+            type: CodigoPostal
+            example:
+              cp: 03144
+              poblacion: ""
+              provincia: ""
+              existe: false
