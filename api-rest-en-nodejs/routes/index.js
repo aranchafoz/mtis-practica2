@@ -14,17 +14,16 @@ module.exports = function(app)
 
 		ValidatorsModel.checkNif(nif, function(error, data)
 		{
-			if(data && data.isValid)
+			if(data)
 			{
+				res.send({isValid: data.isValid})
 				res.status(200)
-				res.send({isValid: true})
 				res.end()
 				next()
 			}
 			else
 			{
 				res.status(500)
-				res.send({isValid: false})
 				res.end()
 				next()
 			}
@@ -38,7 +37,7 @@ module.exports = function(app)
 
 		ValidatorsModel.checkIban(nif, function(error, data)
 		{
-			if(data && data.isValid)
+			if(data)
 			{
 				res.status(200)
 				res.send(data)
@@ -48,7 +47,6 @@ module.exports = function(app)
 			else
 			{
 				res.status(500)
-				res.send(data)
 				res.end()
 				next()
 			}
@@ -58,11 +56,12 @@ module.exports = function(app)
 	// Obtiene los datos según un codigo postal
 	app.post("/consultaCodigoPostal", function(req,res,next)
 	{
-		var cp = req.body.cp
+		var cp = req.body.codigoPostal
 
 		PoblacionModel.consultaCP(cp, function(data)
 		{
-			if(data && data.existe)
+			console.log(data)
+			if(data)
 			{
 				res.status(200)
 				res.send(data)
@@ -72,7 +71,6 @@ module.exports = function(app)
 			else
 			{
 				res.status(500)
-				res.send(data)
 				res.end()
 				next()
 			}
@@ -86,7 +84,7 @@ module.exports = function(app)
 
 		PresupuestoModel.generarPresupuesto(presupuesto, function(data)
 		{
-			if(data && data.presupuestoGeneradoCorrectamente)
+			if(data)
 			{
 				res.status(200)
 				res.send(data)
@@ -96,7 +94,6 @@ module.exports = function(app)
 			else
 			{
 				res.status(500)
-				res.send(data)
 				res.end()
 				next()
 			}
