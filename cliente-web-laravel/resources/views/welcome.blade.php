@@ -172,7 +172,7 @@
         <div class="flex-center position-ref full-height">
             <div class="content">
                 <div class="title m-b-md">
-                    MTIS - Práctica 1
+                    MTIS - Práctica 2
                 </div>
 
                 <div class="m-b-md">
