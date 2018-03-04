@@ -140,42 +140,54 @@ class RestController extends Controller
 
     return redirect()->back()->with('errorCp', $error)->with('cp', $cp)->with('cpPoblacion', $cpPoblacion)->with('cpProvincia', $cpProvincia)->withInput($request->input());
   }
-  //
-  // public function generarPresupuesto(Request $request)
-  // {
-  //   $error = false;
-  //   $cpPoblacion = false;
-  //   $cpProvincia = false;
-  //
-  //   $fechaPre = $request->input('fechaPre');
-  //   var_dump($fechaPre);
-  //
-  //   $idCliente = $request->input('idCliente');
-  //   $referenciaProd = $request->input('referenciaProd');
-  //   $cantidadProd = $request->input('cantidadProd');
-  //   $restKey = $request->input('restKey');
-  //
-  //   $client = new RestClient($this->wsdl, array('exceptions' => 0));
-  //
-  //   $response = $client->generarPresupuesto(array(
-  //     'fechaPresupuesto' => $fechaPre,
-  //     'idCliente' => $idCliente,
-  //     'referenciaProducto' => $referenciaProd,
-  //     'cantidadProducto' => $cantidadProd,
-  //     'RestKey' => $restKey
-  //   ));
-  //
-  //   if (is_soap_fault($response)) {
-  //     $error = $response->faultstring;
-  //   } else {
-  //     if(!$response->presupuestoGeneradoCorrectamente) {
-  //       $error = "Error al generar el presupuesto";
-  //     } else {
-  //       $idPresu = $response->idPresupuesto;
-  //       $presuOK = $response->presupuestoGeneradoCorrectamente;
-  //     }
-  //   }
-  //
-  //   return redirect()->back()->with('errorPresu', $error)->with('idPresu', $idPresu)->with('presuOK', $presuOK)->withInput($request->input());
-  // }
+
+  public function generarPresupuesto(Request $request)
+  {
+    $error = false;
+    $cpPoblacion = false;
+    $cpProvincia = false;
+
+    $fechaPre = $request->input('fechaPre');
+    var_dump($fechaPre);
+
+    $idCliente = $request->input('idCliente');
+    $referenciaProd = $request->input('referenciaProd');
+    $cantidadProd = $request->input('cantidadProd');
+    $restKey = $request->input('restKey');
+
+    $client = new Client(['base_uri' => $this->base_uri]);
+
+    try {
+      $response = $client->request('POST', 'generarPresupuesto', [
+          'json' => [
+              'RestKey' => $restKey,
+              'fechaPresupuesto' => $fechaPre,
+              'idCliente' => $idCliente,
+              'referenciaProducto' => $referenciaProd,
+              'cantidadProducto' => $cantidadProd
+          ]
+      ]);
+
+      $body = $response->getBody();
+      $json = json_decode($body);
+
+      if(!$json->presupuestoGeneradoCorrectamente) {
+       $error = "Error al generar el presupuesto";
+     } else {
+       $idPresu = $json->idPresupuesto;
+       $presuOK = $json->presupuestoGeneradoCorrectamente;
+     }
+    } catch (RequestException $e) {
+        if ($e->hasResponse()) {
+          if($e->getResponse()->getStatusCode() == 400
+          || $e->getResponse()->getStatusCode() == 401) {
+              $error = json_decode( $e->getResponse()->getBody() )->msg;
+          } else {
+              $error = $e->getResponse()->getReasonPhrase();
+          }
+        }
+    }
+
+    return redirect()->back()->with('errorPresu', $error)->with('idPresu', $idPresu)->with('presuOK', $presuOK)->withInput($request->input());
+  }
 }
