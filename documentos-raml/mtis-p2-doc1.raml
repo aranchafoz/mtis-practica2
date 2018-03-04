@@ -2,6 +2,24 @@
 title: MTIS - Practica 2 - Documento 1
 mediaType: application/json
 baseUri: http://localhost:3000
+version: 1.0
+
+types:
+  RestKey:
+    type: string
+    required: true
+    minLength: 1
+    maxLength: 255
+  NIF:
+    type: string
+    required: true
+    minLength: 1
+    maxLength: 255
+  IBAN:
+    type: string
+    required: true
+    minLength: 1
+    maxLength: 255
 
 /validarNIF:
   post:
@@ -9,18 +27,15 @@ baseUri: http://localhost:3000
     body:
       application/json:
         type: object
-        properties: 
-          RestKey: string
-          nif: string
-        example:
-          "RestKey": "SFGA2341WGFJSMFDC"
-          "nif": "123456789A"
-    responses: 
+        properties:
+          RestKey: RestKey
+          nif: NIF
+    responses:
       200:
-        body: 
+        body:
           application/json:
             type: object
-            properties: 
+            properties:
               isValid: boolean
             example:
               "isValid": true
@@ -28,7 +43,7 @@ baseUri: http://localhost:3000
         body:
           application/json:
             type: object
-            properties: 
+            properties:
               isValid: boolean
             example:
               "isValid": false
@@ -38,18 +53,18 @@ baseUri: http://localhost:3000
     body:
       application/json:
         type: object
-        properties: 
-          RestKey: string
-          iban: string
+        properties:
+          RestKey: RestKey
+          iban: IBAN
         example:
           "RestKey": "SFGA2341WGFJSMFDC"
           "iban": "ES91 2100 0418 4502 0005 1332"
-    responses: 
+    responses:
       200:
-        body: 
+        body:
           application/json:
             type: object
-            properties: 
+            properties:
               isValid: boolean
               error: string
             example:
@@ -59,7 +74,7 @@ baseUri: http://localhost:3000
         body:
           application/json:
             type: object
-            properties: 
+            properties:
               isValid: boolean
               error: string
             example:

@@ -2,6 +2,7 @@
 title: MTIS - Practica 2 - Documento 3
 mediaType: application/json
 baseUri: http://localhost:3000
+version: v1.0
 
 types:
   Presupuesto:
@@ -25,12 +26,12 @@ types:
           idCliente: 1
           referenciaProducto: "AS43"
           cantidadProducto: 3
-    responses: 
+    responses:
       200:
-        body: 
+        body:
           application/json:
             type: object
-            properties: 
+            properties:
               idPresupuesto: number
               presupuestoGeneradoCorrectamente: boolean
             example:
@@ -40,7 +41,7 @@ types:
         body:
           application/json:
             type: object
-            properties: 
+            properties:
               idPresupuesto: number
               presupuestoGeneradoCorrectamente: boolean
             example:
